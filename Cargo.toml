@@ -4,3 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+dotenvy = "0.15.7"
+mysql = "25.0.1"
+sqlx = { version = "0.8.1", features = ["runtime-async-std-native-tls", "mysql", "chrono", "uuid"] }
+tokio = { version = "1.40.0", features = ["full"] }
