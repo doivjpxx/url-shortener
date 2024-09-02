@@ -102,3 +102,106 @@ impl UrlServiceImpl for UrlService {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::db::connect_database;
+
+    #[tokio::test]
+    async fn test_add_url() {
+        dotenvy::dotenv().ok();
+
+        let pool = connect_database().await;
+        let url_service = UrlService::new(pool);
+
+        let data = CreateUrlRequest {
+            url: "https://example.com".to_string(),
+            short_code: "example".to_string(),
+        };
+
+        let result = url_service.add(data).await;
+
+        assert!(result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_retrieve_url() {
+        dotenvy::dotenv().ok();
+
+        let pool = connect_database().await;
+        let url_service = UrlService::new(pool);
+
+        let data = CreateUrlRequest {
+            url: "https://example.com".to_string(),
+            short_code: "example".to_string(),
+        };
+
+        url_service.add(data).await.unwrap();
+
+        let result = url_service.retrieve("example".to_string()).await;
+
+        assert!(result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_update_url() {
+        dotenvy::dotenv().ok();
+
+        let pool = connect_database().await;
+        let url_service = UrlService::new(pool);
+
+        let data = CreateUrlRequest {
+            url: "https://example.com".to_string(),
+            short_code: "example".to_string(),
+        };
+
+        url_service.add(data).await.unwrap();
+
+        let data = UpdateUrlRequest {
+            url: "https://example.com".to_string(),
+        };
+
+        let result = url_service.update("example".to_string(), data).await;
+
+        assert!(result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_delete_url() {
+        dotenvy::dotenv().ok();
+
+        let pool = connect_database().await;
+        let url_service = UrlService::new(pool);
+
+        let data = CreateUrlRequest {
+            url: "https://example.com".to_string(),
+            short_code: "example".to_string(),
+        };
+
+        url_service.add(data).await.unwrap();
+
+        let result = url_service.delete("example".to_string()).await;
+
+        assert!(result.is_ok());
+    }
+
+    #[tokio::test]
+    async fn test_statistics_url() {
+        dotenvy::dotenv().ok();
+
+        let pool = connect_database().await;
+        let url_service = UrlService::new(pool);
+
+        let data = CreateUrlRequest {
+            url: "https://example.com".to_string(),
+            short_code: "example".to_string(),
+        };
+
+        url_service.add(data).await.unwrap();
+
+        let result = url_service.statistics("example".to_string()).await;
+
+        assert!(result.is_ok());
+    }
+}
