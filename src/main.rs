@@ -1,6 +1,8 @@
 mod app;
 mod db;
+mod handlers;
 mod models;
+mod services;
 
 use app::app;
 use db::connect_database;
@@ -10,7 +12,7 @@ use std::env;
 async fn main() {
     dotenvy::dotenv().ok();
 
-    connect_database().await;
+    let pool = connect_database().await;
 
     let addr = format!(
         "{}:{}",
@@ -18,7 +20,7 @@ async fn main() {
         env::var("PORT").unwrap_or("3000".to_owned())
     );
 
-    let app = app();
+    let app = app(pool);
     let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
 
     println!("🚀 Server is running on http://{}", addr);
