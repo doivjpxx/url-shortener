@@ -3,6 +3,7 @@ mod db;
 mod handlers;
 mod models;
 mod services;
+mod dtos;
 
 use app::app;
 use db::connect_database;
