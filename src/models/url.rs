@@ -11,8 +11,3 @@ pub struct Url {
     pub access_count: Option<i32>,
 }
 
-#[derive(Deserialize)]
-pub struct CreateUrlRequest {
-    pub url: String,
-    pub short_code: String,
-}
