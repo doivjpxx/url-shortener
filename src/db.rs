@@ -17,3 +17,17 @@ pub async fn connect_database() -> Pool<MySql> {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn test_connect_database() {
+        dotenvy::dotenv().ok();
+
+        let pool = connect_database().await;
+
+        assert_eq!(pool.is_closed(), false);
+    }
+}
