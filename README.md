@@ -10,10 +10,39 @@ This is a simple URL shortener app built with Rust. It allows users to shorten l
 
 ## Installation
 
+Make sure you have Rust installed on your machine. If not, you can install it by following the instructions on the [official website](https://www.rust-lang.org/tools/install).
+
+Also, you need to have MySQL database installed on your machine. You can install it by following the instructions on the [official website](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/).
+
+To run MySQL database, you can use the following command:
+
+```bash
+docker run --name mysql -e MYSQL_ROOT_PASSWORD=password -d -p 3306:3306 mysql:latest
+```
+
+Then, create a new database named `url_shortener`:
+
+```bash
+docker exec -it mysql mysql -uroot -ppassword -e "CREATE DATABASE url_shortener;"
+```
+
+After that, create a `.env` file in the project directory with the following content:
+
+```env
+DATABASE_URL=mysql://root:password@localhost/url_shortener
+```
+
+Follow the steps below to run the app:
+
 1. Clone the repository: `git clone https://github.com/doivjpxx/url-shortener.git`
 2. Navigate to the project directory: `cd url-shortener`
 3. Build the project: `cargo build`
 4. Run the app: `cargo run`
+
+## Run with Dockerfile
+
+1. Build the image: `docker build -t url-shortener .`
+2. Run the container: `docker run -p 8000:8000 url-shortener`
 
 ## Usage
 
